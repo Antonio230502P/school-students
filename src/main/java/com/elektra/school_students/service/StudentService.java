@@ -8,4 +8,6 @@ public interface StudentService {
     List<StudentResponse> getAllStudents();
 
     List<StudentResponse> filterStudents(String filterType, String filterValue);
+
+    StudentResponse getStudentByUuid(String uuid);
 }
