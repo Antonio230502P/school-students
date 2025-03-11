@@ -6,4 +6,6 @@ import com.elektra.school_students.response.StudentResponse;
 
 public interface StudentService {
     List<StudentResponse> getAllStudents();
+
+    List<StudentResponse> filterStudents(String filterType, String filterValue);
 }

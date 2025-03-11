@@ -21,4 +21,9 @@ public class StudentServiceImpl implements StudentService{
     public List<StudentResponse> getAllStudents() {
         return studentMapper.entityToResponseList(studentDao.getAllStudents());
     }
+
+    @Override
+    public List<StudentResponse> filterStudents(String filterType, String filterValue) {
+        return studentMapper.entityToResponseList(studentDao.filerStudents(filterType, filterValue));
+    }
 }
