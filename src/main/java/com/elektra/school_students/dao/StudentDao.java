@@ -8,4 +8,6 @@ public interface StudentDao {
     List<Student> getAllStudents();
 
     List<Student> filerStudents(String filterType, String filterValue);
+
+    Student getStudentByUuid(String uuid);
 }

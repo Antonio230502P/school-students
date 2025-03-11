@@ -102,4 +102,37 @@ public class StudentDaoImpl implements StudentDao {
         return students;
     }
 
+    @Override
+    public Student getStudentByUuid(String uuid) {
+        simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("sp_get_student_by_uuid")
+                .declareParameters(
+                        new SqlParameter("p_uuid", OracleTypes.VARCHAR),
+                        new SqlOutParameter("p_result", OracleTypes.REF_CURSOR));
+
+        mapSqlParameterSource = new MapSqlParameterSource()
+                .addValue("p_uuid", uuid);
+
+        Map<String, Object> result = simpleJdbcCall.execute(mapSqlParameterSource);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSetList = (List<Map<String, Object>>) result.get("p_result");
+
+        if (resultSetList != null && !resultSetList.isEmpty()) {
+            Map<String, Object> row = resultSetList.get(0);
+
+            return Student.builder()
+                    .uuid((String) row.get("uuid"))
+                    .name((String) row.get("name"))
+                    .age(((BigDecimal) row.get("age")).intValue())
+                    .grade(((BigDecimal) row.get("grade")).intValue())
+                    .address((String) row.get("address"))
+                    .activeStudent(((String) row.get("active_student")).charAt(0))
+                    .foreignStudent(((String) row.get("foreign_student")).charAt(0))
+                    .build();
+        } else {
+            return null;
+        }
+    }
+
 }

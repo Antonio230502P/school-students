@@ -28,4 +28,9 @@ public class StudentController {
     public ResponseEntity<List<StudentResponse>> getStudentsFiltered(@PathVariable String filterType, @PathVariable String filterValue) {
         return ResponseEntity.ok(studentService.filterStudents(filterType, filterValue));
     }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<StudentResponse> getStudentByUuid(@PathVariable String uuid) {
+        return ResponseEntity.ok(studentService.getStudentByUuid(uuid));
+    }
 }
