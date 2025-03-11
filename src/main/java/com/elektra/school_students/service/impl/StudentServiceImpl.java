@@ -2,6 +2,9 @@ package com.elektra.school_students.service.impl;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.elektra.school_students.dao.StudentDao;
@@ -20,6 +23,7 @@ public class StudentServiceImpl implements StudentService{
     private final StudentDao studentDao;
 
     @Override
+    @Cacheable(value = "students", key = "'all'")
     public List<StudentResponse> getAllStudents() {
         return studentMapper.entityToResponseList(studentDao.getAllStudents());
     }
@@ -30,21 +34,27 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
+    @Cacheable(value = "student", key = "#uuid")
     public StudentResponse getStudentByUuid(String uuid) {
         return studentMapper.entityToResponse(studentDao.getStudentByUuid(uuid));
     }
 
     @Override
+    @CachePut(cacheNames = "student", key = "#uuid")
+    @CacheEvict(cacheNames = "students", key = "'all'", beforeInvocation = true)
     public StudentResponse updateStudent(String uuid, StudentRequestPut studentRequestPut) {
         return studentMapper.entityToResponse(studentDao.updateStudent(uuid, studentRequestPut));
     }
 
     @Override
+    @CacheEvict(cacheNames = "students", key = "'all'", beforeInvocation = true)
     public StudentResponse addStudent(StudentRequestPost studentRequestPost) {
         return studentMapper.entityToResponse(studentDao.addStudent(studentRequestPost));
     }
 
     @Override
+    @CachePut(cacheNames = "student", key = "#uuid")
+    @CacheEvict(cacheNames = "students", key = "'all'", beforeInvocation = true)
     public void unenrollingStudent(String uuid) {
         studentDao.unenrollingStudent(uuid);
     }
