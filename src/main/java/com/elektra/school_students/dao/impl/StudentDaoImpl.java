@@ -21,16 +21,18 @@ import com.elektra.school_students.entity.Student;
 import com.elektra.school_students.request.StudentRequestPost;
 import com.elektra.school_students.request.StudentRequestPut;
 
+import lombok.Setter;
 import oracle.jdbc.OracleTypes;
 
 @Repository
+@Setter
 public class StudentDaoImpl implements StudentDao {
         private JdbcTemplate jdbcTemplate;
         private SimpleJdbcCall simpleJdbcCall;
         private MapSqlParameterSource mapSqlParameterSource;
 
         @Autowired
-        private void setDataSource(DataSource dataSource) {
+        public void setDataSource(DataSource dataSource) {
                 jdbcTemplate = new JdbcTemplate(dataSource);
         }
 
