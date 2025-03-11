@@ -16,4 +16,6 @@ public interface StudentService {
     StudentResponse updateStudent(String uuid, StudentRequestPut studentRequestPut);
 
     StudentResponse addStudent(StudentRequestPost studentRequestPost);
+
+    void unenrollingStudent(String uuid);
 }
