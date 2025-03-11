@@ -48,10 +48,10 @@ public class Student {
     private String address;
 
     @Column(name = "active_student", nullable = false)
-    private Character activeStudent;
+    private String activeStudent;
 
     @Column(name = "foreign_student", nullable = false)
-    private Character foreignStudent;
+    private String foreignStudent;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
