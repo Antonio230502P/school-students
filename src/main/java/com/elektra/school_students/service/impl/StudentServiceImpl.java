@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.elektra.school_students.dao.StudentDao;
 import com.elektra.school_students.mapper.StudentMapper;
+import com.elektra.school_students.request.StudentRequestPost;
 import com.elektra.school_students.request.StudentRequestPut;
 import com.elektra.school_students.response.StudentResponse;
 import com.elektra.school_students.service.StudentService;
@@ -36,5 +37,10 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public StudentResponse updateStudent(String uuid, StudentRequestPut studentRequestPut) {
         return studentMapper.entityToResponse(studentDao.updateStudent(uuid, studentRequestPut));
+    }
+
+    @Override
+    public StudentResponse addStudent(StudentRequestPost studentRequestPost) {
+        return studentMapper.entityToResponse(studentDao.addStudent(studentRequestPost));
     }
 }

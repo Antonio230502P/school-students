@@ -1,15 +1,19 @@
 package com.elektra.school_students.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.elektra.school_students.request.StudentRequestPost;
 import com.elektra.school_students.request.StudentRequestPut;
 import com.elektra.school_students.response.StudentResponse;
 import com.elektra.school_students.service.StudentService;
@@ -37,6 +41,11 @@ public class StudentController {
     @GetMapping("/{uuid}")
     public ResponseEntity<StudentResponse> getStudentByUuid(@PathVariable String uuid) {
         return ResponseEntity.ok(studentService.getStudentByUuid(uuid));
+    }
+
+    @PostMapping
+    public ResponseEntity<StudentResponse> addStudent(@Valid @RequestBody StudentRequestPost studentRequestPost) {
+        return new ResponseEntity<>(studentService.addStudent(studentRequestPost), CREATED);
     }
 
     @PutMapping("/{uuid}")
