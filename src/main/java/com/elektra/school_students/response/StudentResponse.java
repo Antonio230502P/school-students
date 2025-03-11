@@ -1,11 +1,13 @@
 package com.elektra.school_students.response;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class StudentResponse {
+public class StudentResponse implements Serializable {
     private String uuid;
 
     private String name;
