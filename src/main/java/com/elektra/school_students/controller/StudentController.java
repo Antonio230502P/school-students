@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,5 +53,11 @@ public class StudentController {
     public ResponseEntity<StudentResponse> updateStudent(@PathVariable String uuid,
             @Valid @RequestBody StudentRequestPut studentRequestPut) {
         return ResponseEntity.ok(studentService.updateStudent(uuid, studentRequestPut));
+    }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<StudentResponse> unenrollingStudent(@PathVariable String uuid) {
+        studentService.unenrollingStudent(uuid);
+        return ResponseEntity.noContent().build();
     }
 }

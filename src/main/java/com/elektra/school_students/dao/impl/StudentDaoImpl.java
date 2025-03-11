@@ -202,4 +202,15 @@ public class StudentDaoImpl implements StudentDao {
 
                 return getStudentByUuid(uuid);
         }
+
+        @Override
+        public void unenrollingStudent(String uuid) {
+                simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                                .withProcedureName("sp_unenrolling_student")
+                                .declareParameters(new SqlParameter("p_uuid", OracleTypes.VARCHAR));
+                
+                mapSqlParameterSource = new MapSqlParameterSource().addValue("p_uuid", uuid);
+
+                simpleJdbcCall.execute(mapSqlParameterSource);
+        }
 }

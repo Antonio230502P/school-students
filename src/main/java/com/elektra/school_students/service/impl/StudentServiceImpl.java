@@ -43,4 +43,9 @@ public class StudentServiceImpl implements StudentService{
     public StudentResponse addStudent(StudentRequestPost studentRequestPost) {
         return studentMapper.entityToResponse(studentDao.addStudent(studentRequestPost));
     }
+
+    @Override
+    public void unenrollingStudent(String uuid) {
+        studentDao.unenrollingStudent(uuid);
+    }
 }

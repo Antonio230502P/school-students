@@ -16,4 +16,6 @@ public interface StudentDao {
     Student updateStudent(String uuid, StudentRequestPut studentRequestPut);
 
     Student addStudent(StudentRequestPost studentRequestPost);
+
+    void unenrollingStudent(String uuid);
 }
