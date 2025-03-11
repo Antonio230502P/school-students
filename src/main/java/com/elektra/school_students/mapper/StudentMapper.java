@@ -10,7 +10,7 @@ import com.elektra.school_students.request.StudentRequest;
 import com.elektra.school_students.response.StudentResponse;
 
 @Mapper(componentModel = "spring")
-public interface StudenMapper {
+public interface StudentMapper {
     StudentResponse entityToResponse(Student student);
 
     List<StudentResponse> entityToResponseList(List<Student> students);
