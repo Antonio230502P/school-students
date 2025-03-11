@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.elektra.school_students.entity.Student;
 import com.elektra.school_students.request.StudentRequestPut;
+import com.elektra.school_students.request.StudentRequestPost;
 
 public interface StudentDao {
     List<Student> getAllStudents();
@@ -13,4 +14,6 @@ public interface StudentDao {
     Student getStudentByUuid(String uuid);
 
     Student updateStudent(String uuid, StudentRequestPut studentRequestPut);
+
+    Student addStudent(StudentRequestPost studentRequestPost);
 }
