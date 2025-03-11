@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.elektra.school_students.dao.StudentDao;
 import com.elektra.school_students.entity.Student;
+import com.elektra.school_students.request.StudentRequestPut;
 
 import oracle.jdbc.OracleTypes;
 
@@ -52,8 +53,8 @@ public class StudentDaoImpl implements StudentDao {
                         .age(((BigDecimal) row.get("age")).intValue())
                         .grade(((BigDecimal) row.get("grade")).intValue())
                         .address((String) row.get("address"))
-                        .activeStudent(((String) row.get("active_student")).charAt(0))
-                        .foreignStudent(((String) row.get("foreign_student")).charAt(0))
+                        .activeStudent(((String) row.get("active_student")))
+                        .foreignStudent(((String) row.get("foreign_student")))
                         .build());
             }
         } catch (Exception e) {
@@ -91,8 +92,8 @@ public class StudentDaoImpl implements StudentDao {
                         .age(((BigDecimal) row.get("age")).intValue())
                         .grade(((BigDecimal) row.get("grade")).intValue())
                         .address((String) row.get("address"))
-                        .activeStudent(((String) row.get("active_student")).charAt(0))
-                        .foreignStudent(((String) row.get("foreign_student")).charAt(0))
+                        .activeStudent(((String) row.get("active_student")))
+                        .foreignStudent(((String) row.get("foreign_student")))
                         .build());
             }
         } catch (Exception e) {
@@ -127,12 +128,46 @@ public class StudentDaoImpl implements StudentDao {
                     .age(((BigDecimal) row.get("age")).intValue())
                     .grade(((BigDecimal) row.get("grade")).intValue())
                     .address((String) row.get("address"))
-                    .activeStudent(((String) row.get("active_student")).charAt(0))
-                    .foreignStudent(((String) row.get("foreign_student")).charAt(0))
+                    .activeStudent(((String) row.get("active_student")))
+                    .foreignStudent(((String) row.get("foreign_student")))
                     .build();
         } else {
             return null;
         }
     }
 
+    @Override
+    public Student updateStudent(String uuid, StudentRequestPut studentRequestPut) {
+        Student studentToUpdate = getStudentByUuid(uuid);
+
+        simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName("sp_update_student")
+                .declareParameters(
+                        new SqlParameter("p_uuid", OracleTypes.VARCHAR),
+                        new SqlParameter("p_name", OracleTypes.VARCHAR),
+                        new SqlParameter("p_age", OracleTypes.NUMBER),
+                        new SqlParameter("p_grade", OracleTypes.NUMBER),
+                        new SqlParameter("p_address", OracleTypes.VARCHAR),
+                        new SqlParameter("p_foreign_student", OracleTypes.CHAR));
+
+        mapSqlParameterSource = new MapSqlParameterSource()
+                .addValue("p_uuid", uuid)
+                .addValue("p_name",
+                        studentRequestPut.getName() != null ? studentRequestPut.getName() : studentToUpdate.getName())
+                .addValue("p_age",
+                        studentRequestPut.getAge() != null ? studentRequestPut.getAge() : studentToUpdate.getAge())
+                .addValue("p_grade",
+                        studentRequestPut.getGrade() != null ? studentRequestPut.getGrade()
+                                : studentToUpdate.getGrade())
+                .addValue("p_address",
+                        studentRequestPut.getAddress() != null ? studentRequestPut.getAddress()
+                                : studentToUpdate.getAddress())
+                .addValue("p_foreign_student",
+                        studentRequestPut.getForeignStudent() != null ? studentRequestPut.getForeignStudent()
+                                : studentToUpdate.getForeignStudent());
+
+        simpleJdbcCall.execute(mapSqlParameterSource);
+
+        return getStudentByUuid(uuid);
+    }
 }
